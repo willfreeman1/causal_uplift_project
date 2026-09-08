@@ -1,4 +1,4 @@
-"""Reproduce PLAN.md section 5 numbers on the full Hillstrom file."""
+"""Reproduce the published average effects on the full Hillstrom file."""
 
 from causal_uplift.eda import average_effects, feature_balance, visit_response_pattern
 from causal_uplift.data import load_hillstrom

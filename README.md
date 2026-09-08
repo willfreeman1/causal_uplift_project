@@ -6,9 +6,7 @@ A company can send each customer a **men’s-product email** ($0.50), a **women�
 2. Spends a **fixed budget** where each dollar of send cost is expected to cause the most leftover profit.
 3. Grades every send list with **held-out random emails and real spending**, not the model’s own guesses.
 
-Public data: Kevin Hillstrom’s MineThatData email experiment (~64k customers, random 1/3 assignment). Economics are imposed in code (`$0.20` / `$0.50` send costs; budget = 15% of “men’s email to everyone,” **$2,400** on a 32k holdout).
-
-Catch-up log: [work_record.md](work_record.md). Locked choices: [BRIEF.md](BRIEF.md), [PLAN.md](PLAN.md).
+Public data: Kevin Hillstrom’s MineThatData email experiment (~64k customers, random 1/3 assignment). Economics are imposed in code (`$0.20` / `$0.50` send costs; budget = 15% of “men’s email to everyone,” **$2,400** on a 32k holdout). Choices and grading method: [METHODS.md](METHODS.md).
 
 ---
 
@@ -82,4 +80,4 @@ python run_all.py
 
 The CSV is already in `data/raw/hillstrom.csv` (offline). `run_all.py` rebuilds the figures, `results/metrics.json`, and runs tests. It does **not** generate made-up customers.
 
-Notebooks: `notebooks/01_look_at_the_data.ipynb`, `02_effects_and_plan.ipynb`, `03_honest_grading.ipynb`.
+Notebooks: `notebooks/01_look_at_the_data.ipynb`, `02_effects_and_plan.ipynb`, `03_honest_grading.ipynb`. `04_made_up_dataset.ipynb` is a code check on fake customers with a known answer, not a store result.

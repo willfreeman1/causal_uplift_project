@@ -112,7 +112,7 @@ def visit_effect_by_group(df: pd.DataFrame, column: str) -> pd.DataFrame:
 
 
 def visit_response_pattern(df: pd.DataFrame) -> pd.DataFrame:
-    """The slices PLAN.md section 5 calls out, plus a few more."""
+    """Visit effects by last-year category, newbie, zip, channel, and recency."""
     pieces = [
         visit_effect_by_group(df, "womens"),
         visit_effect_by_group(df, "mens"),

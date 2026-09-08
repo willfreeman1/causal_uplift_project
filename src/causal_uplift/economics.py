@@ -1,7 +1,7 @@
 """Costs, budget, split, and outcome — one source of truth.
 
 Every script that needs these numbers should import them from here.
-See PLAN.md section 5 for the reasoning behind each choice.
+See METHODS.md for the reasoning behind each choice.
 """
 
 from __future__ import annotations
