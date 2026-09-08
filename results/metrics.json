@@ -1,0 +1,163 @@
+{
+  "n_grade": 32000,
+  "budget": 2400.0,
+  "policies": [
+    {
+      "policy": "treat_nobody",
+      "n": 32000,
+      "ipw": 0.0,
+      "ipw_ci_low": 0.0,
+      "ipw_ci_high": 0.0,
+      "aipw": 0.0,
+      "aipw_ci_low": 0.0,
+      "aipw_ci_high": 0.0,
+      "n_womens": 0,
+      "n_mens": 0,
+      "n_control": 32000,
+      "spent": 0.0,
+      "budget_constrained": false
+    },
+    {
+      "policy": "random",
+      "n": 32000,
+      "ipw": 0.22339106205310386,
+      "ipw_ci_low": -0.08975297087013194,
+      "ipw_ci_high": 0.5301490053007555,
+      "aipw": 0.22246684822103463,
+      "aipw_ci_low": -0.09833813776543245,
+      "aipw_ci_high": 0.523450697148414,
+      "n_womens": 10655,
+      "n_mens": 10602,
+      "n_control": 10743,
+      "spent": 7431.999999998696,
+      "budget_constrained": false
+    },
+    {
+      "policy": "always_womens",
+      "n": 32000,
+      "ipw": 0.331277089019769,
+      "ipw_ci_low": -0.04268123660918804,
+      "ipw_ci_high": 0.711731406334153,
+      "aipw": 0.3298512104869051,
+      "aipw_ci_low": -0.0840658560296765,
+      "aipw_ci_high": 0.712339392100391,
+      "n_womens": 32000,
+      "n_mens": 0,
+      "n_control": 0,
+      "spent": 6399.99999999637,
+      "budget_constrained": false
+    },
+    {
+      "policy": "naive",
+      "n": 32000,
+      "ipw": 0.1423659654731856,
+      "ipw_ci_low": -0.03985950110541183,
+      "ipw_ci_high": 0.35308033654210347,
+      "aipw": 0.14809107566148144,
+      "aipw_ci_low": -0.03429515023533112,
+      "aipw_ci_high": 0.34605499714218035,
+      "n_womens": 0,
+      "n_mens": 4800,
+      "n_control": 27200,
+      "spent": 2400.0,
+      "budget_constrained": true
+    },
+    {
+      "policy": "uplift_s_learner",
+      "n": 32000,
+      "ipw": 0.06541748874993007,
+      "ipw_ci_low": -0.07788322714565771,
+      "ipw_ci_high": 0.22202625690906638,
+      "aipw": 0.0714540169958072,
+      "aipw_ci_low": -0.0625961186093762,
+      "aipw_ci_high": 0.23539154567265533,
+      "n_womens": 2140,
+      "n_mens": 3944,
+      "n_control": 25916,
+      "spent": 2400.000000000004,
+      "budget_constrained": true
+    },
+    {
+      "policy": "uplift_t_learner",
+      "n": 32000,
+      "ipw": 0.2396195788649141,
+      "ipw_ci_low": 0.01907675549579398,
+      "ipw_ci_high": 0.4964329727233827,
+      "aipw": 0.2471596215999662,
+      "aipw_ci_low": 0.027367139972569635,
+      "aipw_ci_high": 0.5007357788755602,
+      "n_womens": 5972,
+      "n_mens": 2411,
+      "n_control": 23617,
+      "spent": 2399.900000000005,
+      "budget_constrained": true
+    },
+    {
+      "policy": "uplift_x_learner",
+      "n": 32000,
+      "ipw": 0.09868142936554909,
+      "ipw_ci_low": -0.1430295808291375,
+      "ipw_ci_high": 0.35354992415046677,
+      "aipw": 0.10157781171805619,
+      "aipw_ci_low": -0.13605663695482623,
+      "aipw_ci_high": 0.3532059658197207,
+      "n_womens": 5890,
+      "n_mens": 2444,
+      "n_control": 23666,
+      "spent": 2400.0000000000014,
+      "budget_constrained": true
+    },
+    {
+      "policy": "uplift_causal_forest",
+      "n": 32000,
+      "ipw": 0.16060507795263118,
+      "ipw_ci_low": -0.0765900361984457,
+      "ipw_ci_high": 0.42214225434371855,
+      "aipw": 0.15455110032132355,
+      "aipw_ci_low": -0.08105017095474738,
+      "aipw_ci_high": 0.4081782919025667,
+      "n_womens": 2697,
+      "n_mens": 3721,
+      "n_control": 25582,
+      "spent": 2399.900000000003,
+      "budget_constrained": true
+    }
+  ],
+  "product": {
+    "t_learner_plan": [
+      {
+        "arm": "no_email",
+        "n": 23617,
+        "share_womens_buyers": 0.505906762078164,
+        "share_newbie": 0.49163737985349537,
+        "mean_recency": 5.930643180759622,
+        "mean_history": 222.99967142312738
+      },
+      {
+        "arm": "womens_email",
+        "n": 5972,
+        "share_womens_buyers": 0.6629269926322839,
+        "share_newbie": 0.5137307434695244,
+        "mean_recency": 5.510046885465505,
+        "mean_history": 256.37593938379104
+      },
+      {
+        "arm": "mens_email",
+        "n": 2411,
+        "share_womens_buyers": 0.7034425549564496,
+        "share_newbie": 0.5321443384487764,
+        "mean_recency": 4.801327250103691,
+        "mean_history": 398.055686437163
+      }
+    ]
+  },
+  "half_budget_t_learner": {
+    "dollars": 1200.0,
+    "n_womens": 3259,
+    "n_mens": 1096,
+    "n_control": 27645,
+    "aipw": 0.03224426716896461,
+    "aipw_ci_low": -0.12154212718721713,
+    "aipw_ci_high": 0.17331196167760873
+  }
+}
