@@ -34,8 +34,8 @@ Men’s email works across the board. Women’s email mainly competes among peop
 ## How a send list is built
 
 1. On the **build** half, estimate extra spend from each email vs nothing (S-learner, T-learner, X-learner, causal forest).
-2. Expected leftover = estimated extra spend minus send cost. Skip any person–email pair whose leftover is zero or negative.
-3. Rank remaining pairs by leftover **per dollar of send cost**. Walk the list. Each person gets at most one email. Stop buying an email when it no longer fits.
+2. Expected profit = estimated extra spend minus send cost. Skip any person–email pair whose profit is zero or negative.
+3. Rank remaining pairs by profit **per dollar of send cost**. Walk the list. Each person gets at most one email. Stop buying an email when it no longer fits.
 
 That ranking is the exact rule if you could send a fraction of an email. Here each send is all-or-nothing, so the ranking is a fast heuristic. An exact solver on a small slice matches when only one email is eligible, and is only a couple percent better when both compete. Reported lists use the ranking.
 
