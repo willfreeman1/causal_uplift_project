@@ -8,7 +8,11 @@ from pathlib import Path
 import pandas as pd
 
 from causal_uplift.allocation import allocate_from_result, allocation_summary
-from causal_uplift.baselines import naive_propensity_policy
+from causal_uplift.baselines import (
+    cheap_until_budget,
+    naive_propensity_policy,
+    random_until_budget,
+)
 from causal_uplift.data import FIGURES_DIR, PROJECT_ROOT, load_and_split
 from causal_uplift.economics import (
     ARM_CONTROL,
@@ -17,15 +21,15 @@ from causal_uplift.economics import (
     budget_for_n,
 )
 from causal_uplift.effects import fit_all_cate_models
-from causal_uplift.grading import PolicyEvaluator, constant_policy, random_policy
+from causal_uplift.grading import PolicyEvaluator, constant_policy
 from causal_uplift.plots import save_money_chart
 
 METRICS_PATH = PROJECT_ROOT / "results" / "metrics.json"
 
 POLICY_LABELS = {
     "treat_nobody": "Send nobody",
-    "random": "Random email",
-    "always_womens": "Cheap email to everyone",
+    "random": "Random emails, $2,400",
+    "cheap": "Cheap email, $2,400",
     "naive": "Naive: likely buyers, expensive email",
     "uplift_s_learner": "Combined model (S)",
     "uplift_t_learner": "Separate models (T)",
@@ -36,7 +40,7 @@ POLICY_LABELS = {
 CHART_ORDER = [
     "treat_nobody",
     "random",
-    "always_womens",
+    "cheap",
     "naive",
     "uplift_s_learner",
     "uplift_t_learner",
@@ -85,8 +89,8 @@ def write_report(
 
     policies = {
         "treat_nobody": constant_policy(len(grade), ARM_CONTROL),
-        "random": random_policy(len(grade)),
-        "always_womens": constant_policy(len(grade), ARM_WOMENS),
+        "random": random_until_budget(len(grade), budget),
+        "cheap": cheap_until_budget(len(grade), budget),
         "naive": naive_propensity_policy(build, grade),
     }
     for name, cate in cates.items():
@@ -107,7 +111,7 @@ def write_report(
                 "n_mens": mix["n_mens"],
                 "n_control": mix["n_control"],
                 "spent": mix["spent"],
-                "budget_constrained": name in {"naive"} or name.startswith("uplift_"),
+                "budget_constrained": name != "treat_nobody",
             }
         )
         rows.append(scored)

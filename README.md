@@ -1,43 +1,46 @@
 # Causal Uplift + Budget Allocation
 
-A company can send each customer a **men’s-product email** ($0.50), a **women’s-product email** ($0.20), or nothing. There is not enough money to give everyone the expensive one. This project:
+A marketing team has a **limited budget**. The classic question is not “who is likely to buy?” It is “who should we contact so that each dollar of send cost causes the most leftover profit?” People who were going to buy anyway waste the budget. People who only buy because of the message are the ones worth paying for. That difference — extra sales *caused* by the contact — is **causal uplift**. This project estimates that extra, turns it into a send list under a hard budget, and grades the list with real experimental outcomes instead of the model’s own guesses.
 
-1. Estimates **who actually spends more because of which email** (not who was going to buy anyway).
-2. Spends a **fixed budget** where each dollar of send cost is expected to cause the most leftover profit.
-3. Grades every send list with **held-out random emails and real spending**, not the model’s own guesses.
-
-Public data: Kevin Hillstrom’s MineThatData email experiment (~64k customers, random 1/3 assignment). Economics are imposed in code (`$0.20` / `$0.50` send costs; budget = 15% of “men’s email to everyone,” **$2,400** on a 32k holdout). Choices and grading method: [METHODS.md](METHODS.md).
+The specific setting is Kevin Hillstrom’s MineThatData email experiment: about 64,000 customers randomly assigned, one-third each, to a **men’s-product email**, a **women’s-product email**, or **nothing**. We impose send costs the raw file does not have: **$0.50** for the men’s email, **$0.20** for the women’s email. On a 32,000-person holdout, the budget is **$2,400** — 15% of what it would cost to send the expensive email to everyone — so the plan has to choose. Details: [METHODS.md](METHODS.md).
 
 ---
 
 ## The money chart
 
-Extra profit **per person vs sending nobody**, averaged over the whole 32k holdout (including people we do not email). Bars are the honest score; whiskers are a 95% range. Almost everyone spends $0, so the ranges are wide.
+Each bar answers the same question, under the same **$2,400** cap: **if we had followed this send list on the 32,000-person holdout, how much extra leftover profit would we have made per person, compared with emailing nobody?** Leftover profit is extra dollars spent minus send cost. People we skip count as $0, so the average is over the whole list. Whiskers are a 95% range. Almost everyone spends $0 after the campaign, so the ranges are wide.
 
 ![Honest extra profit by send list](results/figures/money_chart.png)
 
-“Cheap email to everyone” and “random email” are **not** under the $2,400 cap. They are reference plans. Everything labeled naive or “model” spends essentially the full **$2,400**.
+Every plan except “send nobody” spends the full $2,400. The first two rivals do not use a model:
+
+- **Random emails, $2,400** — walk the list in random order; send men’s or women’s at random if it still fits. About 3,400 of each. Slightly **below** nobody on this split; the range includes $0.
+- **Cheap email, $2,400** — women’s email to the 12,000 people the budget can buy, no targeting. About **13 cents** a person; the range includes $0.
+
+The rest try to pick *who* gets which email. The tallest of those is the separate-models (T) list, about **25 cents** a person. That is the same budget as blasting 12,000 cheap emails, not a bigger pot.
 
 ---
 
 ## Iteration log
 
-**Naive plan.** Ignore which email was sent. Predict who is likely to spend anyway. Blast the expensive men’s email at those people until the budget runs out: **4,800** contacts, **$0.15** extra profit per person. The range **includes $0**. Roughly break-even: paying to email people who were going to buy anyway.
+**Dumb plans that still spend $2,400.** Random mix: slightly negative. Cheap blast: 12,000 women’s emails, **$0.13**. Naive: ignore which email was sent, predict who will spend anyway, blast the expensive men’s email until the money runs out — **4,800** contacts, **$0.15**. The range includes $0. Roughly break-even: paying to email people who were going to buy anyway.
 
 **Effect-based plans.** Fit models on the other half of the data that estimate extra dollars from each email vs nothing. Rank person–email pairs by leftover profit per dollar of send cost. Skip emails whose leftover is zero or negative. Each person gets at most one email.
 
 | Plan | Women’s | Men’s | Left alone | Extra profit / person | 95% range |
 |---|---:|---:|---:|---:|---|
 | Send nobody | 0 | 0 | 32,000 | $0.00 | — |
+| Random emails, $2,400 | 3,377 | 3,449 | 25,174 | −$0.08 | includes $0 |
+| Cheap email, $2,400 | 12,000 | 0 | 20,000 | $0.13 | includes $0 |
 | Naive | 0 | 4,800 | 27,200 | $0.15 | −$0.03 to $0.35 |
 | Combined model (S) | 2,140 | 3,944 | 25,916 | $0.07 | includes $0 |
 | Separate models (T) | 5,972 | 2,411 | 23,617 | $0.25 | $0.03 to $0.50 |
 | Cross model (X) | 5,890 | 2,444 | 23,666 | $0.10 | includes $0 |
 | Causal forest | 2,697 | 3,721 | 25,582 | $0.15 | includes $0 |
 
-**What the honest grade said.** The T-learner mix is the only budgeted plan whose range sits entirely above zero on this split. It is about **25 cents** above nobody, versus **15 cents** for naive — only about **10 cents** above the dumb plan, and the ranges overlap. S, X, and the forest look like naive once you stop trusting the models’ own scores. Do not crown a winner.
+**What the honest grade said.** T is the only plan whose range sits entirely above zero on this split. It is about **25 cents** above nobody, versus **15 cents** for naive and **13 cents** for the cheap blast — only about **10 cents** above the dumb plans, and the ranges overlap. S, X, and the forest look like naive once you stop trusting the models’ own scores. Do not crown a winner.
 
-The T-learner edge is mostly **using the cheap email**: ~8,400 contacts for the same $2,400, versus 4,800 expensive emails. Targeting cannot invent a bigger effect than the experiment has (men’s email is only about 60–80 cents extra spend before the 50-cent cost).
+The T edge is mostly **using both emails on purpose**: ~8,400 contacts for the same $2,400, versus 4,800 expensive emails (naive) or 12,000 untargeted cheap ones. Targeting cannot invent a bigger effect than the experiment has (men’s email is only about 60–80 cents extra spend before the 50-cent cost).
 
 Exact numbers: [results/metrics.json](results/metrics.json).
 

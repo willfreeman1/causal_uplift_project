@@ -39,7 +39,13 @@ Men’s email works across the board. Women’s email mainly competes among peop
 
 That ranking is the exact rule if you could send a fraction of an email. Here each send is all-or-nothing, so the ranking is a fast heuristic. An exact solver on a small slice matches when only one email is eligible, and is only a couple percent better when both compete. Reported lists use the ranking.
 
-A **naive** list ignores which email was sent, predicts who will spend anyway, and blasts the expensive email until the budget is gone. That is the floor.
+Simple lists that also spend the same $2,400, so they are fair rivals:
+
+- **Cheap until the money runs out** — women’s email to as many people as $2,400 buys (12,000), no targeting.
+- **Random until the money runs out** — walk the list in random order and pick men’s or women’s at random if it still fits.
+- **Naive** — ignore which email was sent, predict who will spend anyway, blast the expensive email until the budget is gone.
+
+The model lists have to beat those, not an uncapped blast of the cheap email to the whole file.
 
 ## How a send list is graded
 
@@ -51,9 +57,7 @@ Never by adding up the same model’s own extra-spend guesses. On the **grade** 
 
 A spending predictor trained on rotating slices of the grade set is used only to *correct* that estimate (doubly robust). It is not a targeting model grading its own list. Ranges come from resampling the grade set.
 
-Sanity checks: nobody scores $0; always men’s / always women’s recover the measured average extra spend minus cost; a random list scores a mix of those two nets, not automatically $0.
-
-“Cheap email to everyone” and “random email” are **not** under the $2,400 cap. They are reference plans.
+Sanity checks on the grader (not the money chart): nobody scores $0; always men’s / always women’s recover the measured average extra spend minus cost. Those “always” plans are uncapped on purpose — they check the scoring math, not the budget contest.
 
 ## What is not claimed
 
